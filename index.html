@@ -28,7 +28,8 @@
                         <div class="mb-3">
                             <input type="password" id="password" class="form-control" placeholder="Password" required>
                         </div>
-                        <button type="submit" id="login" class="btn btn-primary w-100">Sign in now</button>
+                        <!-- Update the button ID to match your script -->
+                        <button type="button" id="login" class="btn btn-primary w-100">Sign in now</button>
                     </form>
                     <p class="mt-3">Password not working? Contact your Data Administrator.</p>
                 </div>
@@ -37,68 +38,46 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Firebase CDN Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js"></script>
-    
-    <script>
-      // Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyCSsxI53P9Cd7j2QPGouvMLaNCspRRm4E4",
-        authDomain: "lottery-72b8c.firebaseapp.com",
-        projectId: "lottery-72b8c",
-        storageBucket: "lottery-72b8c.appspot.com",
-        messagingSenderId: "425582563352",
-        appId: "1:425582563352:web:5b6810f3fdd55d4e98336d",
-        measurementId: "G-Q4PSZNNBJP"
-      };
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
 
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const analytics = firebase.analytics(app);
-      const auth = firebase.auth(app);
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSsxI53P9Cd7j2QPGouvMLaNCspRRm4E4",
+            authDomain: "lottery-72b8c.firebaseapp.com",
+            projectId: "lottery-72b8c",
+            storageBucket: "lottery-72b8c.appspot.com",
+            messagingSenderId: "425582563352",
+            appId: "1:425582563352:web:5b6810f3fdd55d4e98336d",
+            measurementId: "G-Q4PSZNNBJP"
+        };
 
-      // Add event listener to the login form
-      document.getElementById('loginForm').addEventListener('submit', async (event) => {
-          event.preventDefault(); // Prevent form from submitting normally
+        // Initialize Firebase and Firebase Auth
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);  // Initialize the Auth instance
 
-          const email = document.getElementById('email').value;
-          const password = document.getElementById('password').value;
+        // Add login event listener
+        document.getElementById('login').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-          try {
-              const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-              console.log("User logged in:", userCredential.user.email);
-              alert("Login successful!");
+            try {
+                // Sign in with email and password
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log("User logged in:", userCredential.user.email);
+                alert("Login successful!");
 
-              // Redirect to dashboard
-              window.location.href = "dashboard.html"; // Update with your dashboard path
-          } catch (error) {
-              console.error("Login error:", error.code);
-
-              // Improved error handling
-              switch (error.code) {
-                  case 'auth/invalid-email':
-                      alert("The email address is not valid.");
-                      break;
-                  case 'auth/user-disabled':
-                      alert("The user account has been disabled.");
-                      break;
-                  case 'auth/user-not-found':
-                      alert("User not found. Please check your email.");
-                      break;
-                  case 'auth/wrong-password':
-                      alert("Invalid password. Please try again.");
-                      break;
-                  case 'auth/network-request-failed':
-                      alert("Network error. Please check your connection.");
-                      break;
-                  default:
-                      alert("Login failed: " + error.message);
-                      break;
-              }
-          }
-      });
+                // Redirect to Power BI dashboard page after successful login
+                window.location.href = "dashboard.html"; // Replace with the actual path to your dashboard page
+            } catch (error) {
+                console.error("Login error:", error.message);
+                alert("Login failed: " + error.message);
+            }
+        });
     </script>
 </body>
 </html>
