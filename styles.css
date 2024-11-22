@@ -1,0 +1,36 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.bg-left {
+    background: linear-gradient(135deg, #007bff, #6c63ff);
+    color: white;
+    text-align: center;
+}
+
+.bg-left h1 {
+    font-size: 2.5rem;
+    line-height: 1.5;
+}
+
+.bg-right {
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    height: 45px;
+    border-radius: 5px;
+}
